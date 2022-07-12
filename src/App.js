@@ -2,7 +2,6 @@ import Button from "./components/Button";
 import "./style.css";
 import { useState, setState, useEffect } from "react";
 import calculations from "./calculations";
-import "./.env";
 
 const calcElementsArr = [ "AC", "⌫", ".", "+", 7, 8, 9, "-", 4, 5, 6, "x", 1, 2, 3, "÷", 0, "00", "FACT", "="];
 
