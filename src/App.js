@@ -1,4 +1,5 @@
 import Button from "./components/Button";
+import FactLoader from './components/FactLoader'
 import "./style.css";
 import { useState, setState, useEffect } from "react";
 import calculations from "./calculations";
@@ -9,10 +10,11 @@ export default function CalculatorApp() {
   const [currentOperand, setCurrentOperand] = useState("");
   const [prevOperand, setprevOperand] = useState("");
   const [operator, setOperator] = useState("");
-  const [getFact, setGetFact] = useState(false);
-  const [showFactTray, setShowFactTray] = useState(true);
+  // const [getFact, setGetFact] = useState(false);
+  const [showFactTray, setShowFactTray] = useState(false);
   const [fact, setFact] = useState("");
   const [decreaseSize, setDecreaseSize] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     const options = {
@@ -24,16 +26,30 @@ export default function CalculatorApp() {
     };
     let randomNum = Math.floor(Math.random() * 1000);
 
-    fetch(
-      `https://numbersapi.p.rapidapi.com/${randomNum}/math?fragment=true&json=true`,
-      options
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setFact(() => randomNum + " ➡ " + data.text);
-        setShowFactTray((prevState) => !prevState);
-      });
-  }, [getFact]);
+
+    async function fetchFact() {
+      setShowFactTray(false);
+      const response = await fetch(`https://numbersapi.p.rapidapi.com/${randomNum}/math?fragment=true&json=true`,
+      options);
+      const data = await response.json();
+      console.log(data);
+      setFact(() => randomNum + " ➡ " + data.text);
+      setShowFactTray(true);
+      setLoader(false);
+    };
+
+    fetchFact();
+    // fetch(
+    //   `https://numbersapi.p.rapidapi.com/${randomNum}/math?fragment=true&json=true`,
+    //   options
+    // )
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     setFact(() => randomNum + " ➡ " + data.text);
+    //     // setShowFactTray((prevState) => !prevState);
+    //   });
+  }, [loader]);
+// }, [getFact, loader]);
 
   const buttonElements = calcElementsArr.map((btn, id) => (
     <Button
@@ -59,16 +75,31 @@ export default function CalculatorApp() {
       </div>
 
       <div className="btn-container">{buttonElements}</div>
-      {showFactTray && (
+
+      <div className="calc-tray">
+         {(loader && !showFactTray) ?
+         <FactLoader />
+          :
+         (showFactTray && 
+          (<div className="tray">
+          <p>"{fact}"</p>
+         </div>))}
+      </div>
+
+     
+
+      {/* {loader && <FactLoader />} */}
+      {/* {showFactTray && (
         <div className="tray">
           <p>"{fact}"</p>
         </div>
-      )}
+      )} */}
     </div>
   );
 
   function flipGetFact() {
-    setGetFact((prevState) => !prevState);
+    setLoader(true);
+    // setGetFact((prevState) => !prevState);
   }
 
   function HandleOutputFontSize(bool) {
