@@ -6,12 +6,10 @@
  calculator app stand out.
 
 ### Screenshots
-![](./screenshots/quiz-app-desktop-start-screenshot.png)
+![](./screenshots/Calculator-1-screenshot.png)
 <br/><br/><br/>
-![](./screenshots/quiz-app-desktop-question-screenshot.png)
-<br/><br/><br/>
-![](./screenshots/quiz-app-desktop-question-check-screenshot.png)
-<br/><br/><br/>
+![](./screenshots/Calculator-2-screenshot.png)
+<br/><br/>
 
 ### Links
 
